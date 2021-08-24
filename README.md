@@ -1,1 +1,1 @@
-# evermos_online_store
+# evermos-online-store
