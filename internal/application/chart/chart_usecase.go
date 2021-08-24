@@ -14,6 +14,7 @@ import (
 type IChartUseCase interface {
 	AddToChart(ctx context.Context, req AddChartRequest) (status int, err error)
 	UpdateChart(ctx context.Context, req UpdateChartRequest) (status int, err error)
+	DeleteChart(ctx context.Context, chart_id string) (status int, err error)
 }
 
 type ChartUseCase struct {
@@ -37,5 +38,11 @@ func(use_case *ChartUseCase)UpdateChart(ctx context.Context, req UpdateChartRequ
 	claim:=jwe_auth.GetClaims(use_case.r)
 	chart:=dto.Chart{ChartId: req.ChartId,Qty: req.Qty,UpdatedAt: time.Now(),UpdatedBy: claim.Public.Subject,CreatedBy: claim.Public.Subject}
 	status,err=use_case.repository.UpdatChart(ctx,chart)
+	return
+}
+
+func (use_case *ChartUseCase)DeleteChart(ctx context.Context, chart_id string) (status int, err error){
+	claim:=jwe_auth.GetClaims(use_case.r)
+	status,err=use_case.repository.DeleteChart(ctx,chart_id,claim.Public.Subject)
 	return
 }

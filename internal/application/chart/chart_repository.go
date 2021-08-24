@@ -127,7 +127,7 @@ func (repo *ChartRepository) UpdatChart(ctx context.Context, chart dto.Chart) (s
 	total_price=$2, 
 	updated_at=$3, 
 	updated_by=$4
-	WHERE created_by=$5 and chart_id=$6
+	WHERE created_by=$5 and chart_id=$6 and deleted_by is not null
 	
 	`)
 	// get product id

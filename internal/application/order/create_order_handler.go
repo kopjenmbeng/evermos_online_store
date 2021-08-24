@@ -1,4 +1,4 @@
-package chart
+package order
 
 import (
 	"net/http"
@@ -9,11 +9,11 @@ import (
 	"github.com/kopjenmbeng/evermos_online_store/internal/utility/respond"
 )
 
-func UpdateChartHandler(w http.ResponseWriter, r *http.Request) {
+func CreateOrderHandler(w http.ResponseWriter, r *http.Request) {
 	var (
 		// err error
 		rc  = r.Context()
-		req UpdateChartRequest
+		req CreateOrderRequest
 		err error
 	)
 	r.Body = http.MaxBytesReader(w, r.Body, 5*1024*1024)
@@ -27,7 +27,7 @@ func UpdateChartHandler(w http.ResponseWriter, r *http.Request) {
 	// app_code:=r.Header.Get("X-Client-id")
 
 	useCase := UseCaseFromContext(rc)
-	code, err := useCase.UpdateChart(rc, req)
+	code, err := useCase.Create(rc, req)
 	if err != nil {
 		middleware.GetLogEntry(r).Error(xerrs.Details(err, respond.ErrMaxStack))
 		respond.Nay(w, r, code, err)

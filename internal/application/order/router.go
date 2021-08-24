@@ -1,4 +1,4 @@
-package chart
+package order
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	CtxChartCaseKey = "chart_usecase"
+	CtxOrderCaseKey = "order_usecase"
 )
 
 func Routes() *chi.Mux {
@@ -18,9 +18,9 @@ func Routes() *chi.Mux {
 	r.Group(func(r chi.Router) {
 		r.Use(jwe_auth.GuardAnonymous(jwe_auth.TokenFromHeader))
 		r.Use(InjectUseCaseContext)
-		r.Post("/add", AddToChartHandler)
-		r.Put("/update", UpdateChartHandler)
-		r.Delete("/delete/{chart_id}",DeleteChartHandler)
+		r.Post("/add", CreateOrderHandler)
+		// r.Put("/update", UpdateChartHandler)
+		// r.Delete("/delete/{chart_id}",DeleteChartHandler)
 	})
 	return r
 }
@@ -29,13 +29,13 @@ func InjectUseCaseContext(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		dbr := db_context.GetDbRead(r)
 		dbw := db_context.GetDbWrite(r)
-		repo := NewChartRepository(dbr, dbw)
-		usecase := NewChartUseCase(repo, r)
-		ctx := context.WithValue(r.Context(), CtxChartCaseKey, usecase)
+		repo := NewOrderRepository(dbr, dbw)
+		usecase := NewOrderUserCase(repo, r)
+		ctx := context.WithValue(r.Context(), CtxOrderCaseKey, usecase)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
 
-func UseCaseFromContext(c context.Context) IChartUseCase {
-	return c.Value(CtxChartCaseKey).(IChartUseCase)
+func UseCaseFromContext(c context.Context) IOrderUseCase {
+	return c.Value(CtxOrderCaseKey).(IOrderUseCase)
 }

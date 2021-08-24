@@ -33,7 +33,7 @@ func AddToChartHandler(w http.ResponseWriter, r *http.Request) {
 		respond.Nay(w, r, code, err)
 		return
 	}
-	respond.Yay(w, r, http.StatusCreated, map[string]string{
+	respond.Yay(w, r, code, map[string]string{
 		"message": "Data berhasil disimpan !",
 	})
 	return

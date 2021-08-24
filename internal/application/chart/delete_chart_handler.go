@@ -4,30 +4,26 @@ import (
 	"net/http"
 
 	"github.com/RoseRocket/xerrs"
-	"github.com/go-chi/render"
+	"github.com/go-chi/chi"
 	"github.com/kopjenmbeng/evermos_online_store/internal/middleware"
 	"github.com/kopjenmbeng/evermos_online_store/internal/utility/respond"
+	"github.com/kopjenmbeng/evermos_online_store/internal/utility/validator"
 )
 
-func UpdateChartHandler(w http.ResponseWriter, r *http.Request) {
+func DeleteChartHandler(w http.ResponseWriter, r *http.Request) {
 	var (
 		// err error
 		rc  = r.Context()
-		req UpdateChartRequest
 		err error
 	)
-	r.Body = http.MaxBytesReader(w, r.Body, 5*1024*1024)
 
-	err = render.Bind(r, &req)
-	if err != nil {
-		middleware.GetLogEntry(r).Error(xerrs.Details(err, respond.ErrMaxStack))
+	ChartId := chi.URLParam(r, "chart_id")
+	if err := validator.ValidateEmpty("chart_id", ChartId); err != nil {
 		respond.Nay(w, r, http.StatusBadRequest, err)
 		return
 	}
-	// app_code:=r.Header.Get("X-Client-id")
-
 	useCase := UseCaseFromContext(rc)
-	code, err := useCase.UpdateChart(rc, req)
+	code, err := useCase.DeleteChart(rc,ChartId)
 	if err != nil {
 		middleware.GetLogEntry(r).Error(xerrs.Details(err, respond.ErrMaxStack))
 		respond.Nay(w, r, code, err)
