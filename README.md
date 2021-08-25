@@ -58,4 +58,4 @@ So I wil give solution start from add to chart until process order.
 After you full fill the requeirment above this is rule for run application locally.
 -   for run api please run this command
     -   go run main.go api
--   for Api documentation please import ![api doc](../master/document/![this json config](../master/evermos.config.json)).json))
+-   for Api documentation please import ![api doc](../master/document/evermos.postman_collection.json))
