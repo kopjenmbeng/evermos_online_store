@@ -54,3 +54,7 @@ So I wil give solution start from add to chart until process order.
 
     # Newrelic
     - #PROPERTY_NEWRELIC_KEY=
+
+After you full fill the requeirment above this is rule for run application locally.
+-   for run api please run this command
+    -   go run main.go api
