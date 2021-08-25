@@ -28,3 +28,7 @@ So I wil give solution start from add to chart until process order.
 3. For order process This is the flow that I recommend.
 
 ![Optional Text](../master/document/order_process.jpg)
+
+From the solution that I offered above, the database diagram that I will make is like this.
+
+![Optional Text](../master/document/db_schema.jpg)
