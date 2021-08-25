@@ -27,4 +27,4 @@ So I wil give solution start from add to chart until process order.
 
 3. For order process This is the flow that I recommend.
 
-![Optional Text](../master/document/order process.jpg)
+![Optional Text](../master/document/order_process.jpg)
