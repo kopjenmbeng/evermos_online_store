@@ -1,0 +1,203 @@
+{
+	"info": {
+		"_postman_id": "e725a923-cbf8-4cd9-886c-fe07a94d9667",
+		"name": "evermos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get_token",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/authentication/get_token?phone_number=6287777000057&password=bambang@12345",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"authentication",
+						"get_token"
+					],
+					"query": [
+						{
+							"key": "phone_number",
+							"value": "6287777000057"
+						},
+						{
+							"key": "password",
+							"value": "bambang@12345"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"phone_number\":\"6287777000057\",\r\n    \"full_name\":\"Bambang\",\r\n    \"password\":\"bambang@12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v1/authentication/register",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"authentication",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_chart",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product_id\":\"9ea602af-48c1-4570-b81d-48eb3fa740e1\",\r\n    \"qty\":6\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v1/chart/add",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"chart",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"charts\":[\"9ea602af-48c1-4570-b81d-48eb3fa740e1\"]\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v1/order/add",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"order",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_chart",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"chart_id\":\"9ea602af-48c1-4570-b81d-48eb3fa740e1\",\r\n    \"qty\":80\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v1/chart/update",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"chart",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_chart",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"chart_id\":\"9ea602af-48c1-4570-b81d-48eb3fa740e1\",\r\n    \"qty\":80\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/v1/chart/delete/9ea602af-48c1-4570-b81d-48eb3fa740e1",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"chart",
+						"delete",
+						"9ea602af-48c1-4570-b81d-48eb3fa740e1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
