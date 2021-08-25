@@ -32,3 +32,15 @@ So I wil give solution start from add to chart until process order.
 # From the solution that I offered above, the database diagram that I will make is like this.
 
 ![Optional Text](../master/document/db_schema.jpg)
+
+
+# And now we are going to technical section.
+
+# Technolgy Stack
+-   GO
+-   Postgres
+-   Consul for store configuration (Optional)
+-   Postman for API Documentation
+
+# Before To RUN
+![Please restore this database backup](../master/script/onlinestor_db.backup)
