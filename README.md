@@ -47,10 +47,10 @@ So I wil give solution start from add to chart until process order.
 
 -   makesure .env file is exist and tho configuration is like this.
     # predefined goconf env vars
-    GOCONF_ENV_PREFIX=socket
-    #GOCONF_CONSUL=localhost:8500 (please remark using # if you don't have consul so it will read ![this json config](../master/evermos.config.json))
-    GOCONF_TYPE=json
-    GOCONF_FILENAME=evermos.config
+    - GOCONF_ENV_PREFIX=socket
+    - #GOCONF_CONSUL=localhost:8500 (please remark using # if you don't have consul so it will read ![this json config](../master/evermos.config.json))
+    - GOCONF_TYPE=json
+    - GOCONF_FILENAME=evermos.config
 
     # Newrelic
-    #PROPERTY_NEWRELIC_KEY=
+    - #PROPERTY_NEWRELIC_KEY=
