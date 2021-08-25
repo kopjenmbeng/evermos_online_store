@@ -17,6 +17,6 @@ And here I am trying to find the root of the problem why this is happening and t
 
 So I wil give solution start from add to chart until process order.
 
-For add to chart process This is the flow that I recommend.
+1. For add to chart process This is the flow that I recommend.
 
 ![Optional Text](../master/document/add_to_chart.jpg)
