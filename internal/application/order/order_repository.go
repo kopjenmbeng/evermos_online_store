@@ -121,7 +121,6 @@ func (repo *OrderRepository) UpdateStock(ctx context.Context, product_id string,
 	query := fmt.Sprintf(`
 	UPDATE public.products 
 	SET in_stock=$1
-	
 	WHERE product_id=$2
 	`)
 	_, err = tx.ExecContext(ctx, query,
@@ -129,7 +128,7 @@ func (repo *OrderRepository) UpdateStock(ctx context.Context, product_id string,
 		&product_id,
 	)
 	if err != nil {
-		return http.StatusInternalServerError, nil
+		return http.StatusInternalServerError,errors.New(fmt.Sprintf("error at step update stock %s", err.Error()))
 	}
 	return http.StatusCreated, nil
 }
@@ -150,7 +149,7 @@ func (repo *OrderRepository) UpdateChartStatus(ctx context.Context, chart_id str
 		&user_id,
 	)
 	if err != nil {
-		return http.StatusInternalServerError, nil
+		return http.StatusInternalServerError, errors.New(fmt.Sprintf("error at step update chart status %s", err.Error()))
 	}
 	return http.StatusCreated, nil
 }
