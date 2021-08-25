@@ -24,3 +24,7 @@ So I wil give solution start from add to chart until process order.
 2. For update to chart process This is the flow that I recommend.
 
 ![Optional Text](../master/document/update_chart.jpg)
+
+3. For order process This is the flow that I recommend.
+
+![Optional Text](../master/document/order_process.jpg)
