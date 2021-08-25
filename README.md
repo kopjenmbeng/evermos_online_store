@@ -15,4 +15,4 @@ requested help from our Customer Service department to call our customers and no
 And here I am trying to find the root of the problem why this is happening and this is the posibility.
 - the possibility that occurs is when the system processes purchases, the system does not validate the stock first. so that it can cause an imbalance between stock and demand
 
-![Optional Text](../document/add_to_chart.jpg)
+![Optional Text](../master/document/add_to_chart.jpg)
