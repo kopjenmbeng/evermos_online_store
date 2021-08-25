@@ -13,7 +13,7 @@ import (
 )
 
 type IOrderRepository interface {
-	Create(ctx context.Context, odr dto.Order) (status int, err error)
+	Create(ctx context.Context, odrs []dto.Order) (status int, err error)
 }
 
 type OrderRepository struct {
@@ -25,7 +25,7 @@ func NewOrderRepository(dbr sqlx.QueryerContext, dbw *sqlx.DB) IOrderRepository 
 	return &OrderRepository{dbr: dbr, dbw: dbw}
 }
 
-func (repo *OrderRepository) Create(ctx context.Context, odr dto.Order) (status int, err error) {
+func (repo *OrderRepository) Create(ctx context.Context, odrs []dto.Order) (status int, Err error) {
 
 	query := fmt.Sprintf(`
 	INSERT INTO public.orders(
@@ -37,42 +37,45 @@ func (repo *OrderRepository) Create(ctx context.Context, odr dto.Order) (status 
 		return http.StatusInternalServerError, err
 	}
 
-	// get product id
-	product_id, err := repo.GetProductIdByChart(ctx, odr.OrderId, tx)
-	if err != nil {
-		return http.StatusBadRequest, err
-	}
+	for _, odr := range odrs {
 
-	// check stock
-	inStock, remain, err := repo.CheckStock(ctx, product_id, tx)
-	if err != nil {
-		return http.StatusBadRequest, err
-	}
-	if !inStock {
-		return http.StatusBadRequest, errors.New("Stock tidak cukup !")
-	}
-	// create order
-	_, err = tx.ExecContext(ctx, query,
-		&odr.OrderId,
-		&odr.Status,
-		&odr.CreatedAt,
-		&odr.CreatedBy,
-	)
-	if err != nil {
-		return http.StatusInternalServerError, err
-	}
+		// get product id
+		product_id, err := repo.GetProductIdByChart(ctx, odr.OrderId, tx)
+		if err != nil {
+			return http.StatusBadRequest, err
+		}
 
-	// update stock
-	status, err = repo.UpdateStock(ctx, product_id, remain, tx)
-	if err != nil {
-		tx.Rollback()
-		return
-	}
-	// update order status
-	status, err = repo.UpdateChartStatus(ctx, odr.OrderId, odr.CreatedBy, tx)
-	if err != nil {
-		tx.Rollback()
-		return
+		// check stock
+		inStock, remain, err := repo.CheckStock(ctx, odr.OrderId, tx)
+		if err != nil {
+			return http.StatusBadRequest, err
+		}
+		if !inStock {
+			return http.StatusBadRequest, errors.New("Stock tidak cukup !")
+		}
+		// create order
+		_, err = tx.ExecContext(ctx, query,
+			&odr.OrderId,
+			&odr.Status,
+			&odr.CreatedAt,
+			&odr.CreatedBy,
+		)
+		if err != nil {
+			return http.StatusInternalServerError, err
+		}
+
+		// update stock
+		status, err = repo.UpdateStock(ctx, product_id, remain, tx)
+		if err != nil {
+			tx.Rollback()
+			return status,err
+		}
+		// update order status
+		status, err = repo.UpdateChartStatus(ctx, odr.OrderId, odr.CreatedBy, tx)
+		if err != nil {
+			tx.Rollback()
+			return status,err
+		}
 	}
 
 	// commit all transaction
@@ -108,11 +111,11 @@ func (repo *OrderRepository) CheckStock(ctx context.Context, chart_id string, tx
 	err := tx.QueryRowContext(ctx, query, &chart_id).Scan(&remain)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return false, 0, errors.New("Daftar belanja tidak ada.")
+			return false, 0, errors.New("Stock tidak.")
 		}
 		return false, 0, err
 	}
-	if remain <= 0 {
+	if remain < 0 {
 		return false, 0, errors.New("Stok tidak cukup !.")
 	}
 	return true, remain, nil
@@ -128,7 +131,7 @@ func (repo *OrderRepository) UpdateStock(ctx context.Context, product_id string,
 		&product_id,
 	)
 	if err != nil {
-		return http.StatusInternalServerError,errors.New(fmt.Sprintf("error at step update stock %s", err.Error()))
+		return http.StatusInternalServerError, errors.New(fmt.Sprintf("error at step update stock %s", err.Error()))
 	}
 	return http.StatusCreated, nil
 }
